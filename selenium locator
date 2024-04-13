@@ -17,10 +17,6 @@ public class AppTest {
         WebDriverManager.chromedriver().setup(); // set up our driver for specific browser
         ChromeDriver driver = new ChromeDriver();
         driver.get("https://demoblaze.com/"); // Browser command to open the website
-        // driver.manage().window().minimize();
-        // int n=driver.getPageSource().length();
-        // System.out.print(n);
-        // driver.findElement(By.className("gLFyf")).sendKeys("v");
         driver.findElement(By.linkText("Laptops")).click();
         Thread.sleep(5000);
         driver.findElement(By.linkText("MacBook air")).click();
