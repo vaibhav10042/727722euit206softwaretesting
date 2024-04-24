@@ -1,0 +1,59 @@
+package com.example;
+import java.util.List;
+
+import org.junit.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+public class Economicng {
+    WebDriver driver;
+    @BeforeTest
+    public void beforemethod(){
+        WebDriverManager.chromedriver().setup();
+        driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        driver.get("https://economictimes.indiatimes.com/?from=mdr");
+    }
+    @Test
+    public void Test() throws Exception
+    {
+        Thread.sleep(2000);
+        driver.findElement(By.xpath("/html/body/main/div[4]/nav/div[10]/a")).click();
+        Thread.sleep(3000);
+        JavascriptExecutor js =  (JavascriptExecutor) driver; 
+        js.executeScript("window.scrollBy(0,100)","");
+        Thread.sleep(1000);
+        Select dropdown = new Select(driver.findElement(By.xpath("/html/body/section/main/aside/div[4]/div[2]/select")));
+        dropdown.selectByVisibleText("Canara Robeco");
+        Thread.sleep(2000);
+        Select dropdown_1 = new Select(driver.findElement(By.xpath("/html/body/section/main/aside/div[4]/div[3]/div/select")));
+        dropdown_1.selectByVisibleText("Canara Robeco Bluechip Equity Direct-G");
+        Thread.sleep(2000);
+        driver.findElement(By.linkText("Get Details")).click();
+        Thread.sleep(5000);
+        String crnt = driver.getWindowHandle();
+        for(String tabs : driver.getWindowHandles())
+        {
+            if(!tabs.equals(crnt))
+            driver.switchTo().window(tabs);
+        }
+        List<WebElement> row = driver.findElements(By.xpath("/html/body/main/div[10]/section[5]/div/div[1]/section[1]/div[2]/div[2]/ul/li[1]/table/tbody/tr[1]"));
+        for(WebElement rows : row)
+        {
+        System.out.print(rows.getText());
+        }
+    }
+    @AfterTest
+    public void testend()
+    {
+        driver.quit();
+    }
+}
+
