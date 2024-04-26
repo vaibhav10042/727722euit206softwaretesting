@@ -54,10 +54,42 @@ public class AppTest
             test.log(Status.FAIL, "Chetan Bhagat is not present");
     }
     @Test(priority = 1)
-    public void test2()
+    public void test2() throws InterruptedException
     {
+        WebElement audio = driver.findElement(By.linkText("Audiobooks"));
+        Thread.sleep(2000);
         Actions act = new Actions(driver);
-        act.moveToElement(null, 0, 0).perform();
+        act.moveToElement(audio).perform();
+        driver.findElement(By.linkText("Audiobooks Top 100")).click();
+        Thread.sleep(4000);
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("window.scrollBy(0,300)");
+        driver.findElement(By.linkText("Funny Story")).click();
+        Thread.sleep(2000);
+        js.executeScript("window.scrollBy(0,500)");
+        driver.findElement(By.xpath("//*[@id=\"commerce-zone\"]/div[2]/ul/li[2]/div/div/label/span")).click();
+        Thread.sleep(2000);
+        driver.findElement(By.xpath("//*[@id=\"find-radio-checked\"]/div[1]/form/input[5]")).click();
+        Thread.sleep(2000);
+        WebElement cart = driver.findElement(By.xpath("//*[@id='add-to-bag-main']/div[1]"));
+        String add = cart.getText();
+        if (add.equals("Item Successfully Added To Your cart")) 
+        test.info("TestCase 2 Executed Successfully!");
+        else
+            test.info("Error Occurred!");
+        Thread.sleep(2000);
+    }
+     @Test(priority = 2)
+    public void Test3() throws Exception{
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("windows.scrollBy(0,80)");
+        driver.findElement(By.xpath("//*[@id='footer']/div/dd/div/div/div[1]/div/a[5]")).click();
+        Thread.sleep(2000);
+        js.executeScript("windows.scrollBy(0,100)");
+        driver.findElement(By.xpath("//*[@id='rewards-modal-link']"));
+        WebElement check=driver.findElement(By.xpath("//*[@id=\"dialog-title\"]"));
+        Assert.assertTrue(check.getText().contains("Sign in or Create an Account"), "Sign in first!!");
+        test.info("TestCase 3 passed Successfully!");
     }
     @AfterTest
     public void AfterTest(){
